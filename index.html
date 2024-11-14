@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Quote Generator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #e09, #d0e);
+            color: #333;
+        }
+
+        #quote-box {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            max-width: 500px;
+            text-align: center;
+            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 1s;
+        }
+
+        #quote {
+            font-size: 1.8em;
+            font-weight: 400;
+            color: #4a4a4a;
+            margin-bottom: 20px;
+            font-style: italic;
+            line-height: 1.5;
+        }
+
+        #author {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #6b6b6b;
+        }
+
+        button {
+            padding: 12px 30px;
+            margin-top: 20px;
+            background-color: #6200ea;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #7e3ff2;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 600px) {
+            #quote-box {
+                padding: 30px;
+            }
+
+            #quote {
+                font-size: 1.5em;
+            }
+
+            button {
+                padding: 10px 20px;
+            }
+        }
+
+        /* Footer */
+        #footer {
+            margin-top: 30px;
+            font-size: 0.9em;
+            text-align: center;
+        }
+
+        #footer a {
+            color: #6200ea;
+            text-decoration: none;
+        }
+
+        #footer a:hover {
+            text-decoration: underline;
+        }
+
+        #footer span {
+            display: block;
+            margin-top: 5px;
+            font-size: 0.8em;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="quote-box">
+        <p id="quote">"Click the button for a random quote!"</p>
+        <p id="author">- Author</p>
+        <button onclick="generateQuote()">Generate Quote</button>
+    </div>
+
+    <div id="footer">
+        <a href="https://instagram.com/meetadithya" target="_blank">@meetadithya</a>
+        <span>Made with ❤ by Adithya</span>
+    </div>
+
+    <script>
+        const quotes = [
+            { text: "The only way to do great work is to love what you do.", author: "Steve Jobs" },
+            { text: "Life is what happens when you're busy making other plans.", author: "John Lennon" },
+            { text: "Success is not final, failure is not fatal: It is the courage to continue that counts.", author: "Winston Churchill" },
+            { text: "Believe you can and you're halfway there.", author: "Theodore Roosevelt" },
+            { text: "The future belongs to those who believe in the beauty of their dreams.", author: "Eleanor Roosevelt" },
+            { text: "Don’t watch the clock; do what it does. Keep going.", author: "Sam Levenson" },
+            { text: "Act as if what you do makes a difference. It does.", author: "William James" },
+            { text: "Success usually comes to those who are too busy to be looking for it.", author: "Henry David Thoreau" },
+            { text: "You miss 100% of the shots you don’t take.", author: "Wayne Gretzky" },
+            { text: "The best revenge is massive success.", author: "Frank Sinatra" },
+            { text: "Do not go where the path may lead, go instead where there is no path and leave a trail.", author: "Ralph Waldo Emerson" },
+            { text: "What lies behind us and what lies before us are tiny matters compared to what lies within us.", author: "Ralph Waldo Emerson" },
+            { text: "The purpose of our lives is to be happy.", author: "Dalai Lama" },
+            { text: "Get busy living or get busy dying.", author: "Stephen King" },
+            { text: "You have within you right now, everything you need to deal with whatever the world can throw at you.", author: "Brian Tracy" },
+            { text: "Your time is limited, so don’t waste it living someone else’s life.", author: "Steve Jobs" },
+            { text: "Not everything that is faced can be changed, but nothing can be changed until it is faced.", author: "James Baldwin" },
+            { text: "The way to get started is to quit talking and begin doing.", author: "Walt Disney" },
+            { text: "The journey of a thousand miles begins with one step.", author: "Lao Tzu" },
+            { text: "Life is really simple, but we insist on making it complicated.", author: "Confucius" },
+            { text: "What you get by achieving your goals is not as important as what you become by achieving your goals.", author: "Zig Ziglar" },
+            { text: "It is never too late to be what you might have been.", author: "George Eliot" },
+            { text: "It does not matter how slowly you go as long as you do not stop.", author: "Confucius" },
+            { text: "We may encounter many defeats but we must not be defeated.", author: "Maya Angelou" },
+            { text: "Everything you’ve ever wanted is on the other side of fear.", author: "George Addair" },
+            { text: "Difficulties in life are intended to make us better, not bitter.", author: "Dan Reeves" },
+            { text: "We generate fears while we sit. We overcome them by action.", author: "Dr. Henry Link" },
+            { text: "Security is mostly a superstition. Life is either a daring adventure or nothing.", author: "Helen Keller" },
+            { text: "It always seems impossible until it’s done.", author: "Nelson Mandela" },
+            { text: "Don't wait. The time will never be just right.", author: "Napoleon Hill" },
+            { text: "To be the best, you must be able to handle the worst.", author: "Wilson Kanadi" },
+            { text: "It’s hard to beat a person who never gives up.", author: "Babe Ruth" }
+        ];
+
+        function generateQuote() {
+            const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+            document.getElementById("quote").textContent = `"${randomQuote.text}"`;
+            document.getElementById("author").textContent = `- ${randomQuote.author}`;
+        }
+    </script>
+
+</body>
+</html>
